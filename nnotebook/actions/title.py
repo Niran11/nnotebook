@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from ._helpers import noteAction,NoteGetter
-from ..files import loadNotes,saveNotes
+from ..files import loadNotes,saveNotes,modDateFormat
 
 @noteAction
 class Title:
@@ -11,7 +11,9 @@ class Title:
 
     def getNoteAndChangeTitle(self):
         try:
-            self.note,_=NoteGetter(self.notes,self.settings).getNoteById()
+            self.note,position=NoteGetter(self.notes,self.settings)\
+                                    .getNoteById()
+            del self.settings[position]
         except (ValueError,IndexError):
             print('No matches')
         else:
@@ -20,11 +22,12 @@ class Title:
     def changeTitle(self):
         title=self.getTitle()
         self.note['title']=title
+        self.note['modDate']=datetime.now().strftime(modDateFormat)
         print('Note title changed')
         saveNotes(self.notes)
 
     def getTitle(self):
-        title=''
+        title=' '.join(self.settings)
         while not title.strip():
             title=input('Insert new note title: ')
         return title

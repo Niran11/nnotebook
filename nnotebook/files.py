@@ -4,16 +4,18 @@ from datetime import datetime
 from json import loads,dumps
 from json.decoder import JSONDecodeError
 
-def openNotes(perm):
+modDateFormat='%H:%M:%S %d.%m.%Y'
+
+def openNotes(permissions):
     try:
-        notesFile=open('main.json',perm)
+        notesFile=open('notes.json',permissions)
     except FileNotFoundError:
-        mknod('main.json')
-        notesFile=open('main.json',perm)
+        mknod('notes.json')
+        notesFile=open('notes.json',permissions)
     return notesFile
 
 def changeDir():
-    notesPath='%s/.notes'%expanduser('~')
+    notesPath='%s/.nnotebook'%expanduser('~')
     if not exists(notesPath):mkdir(notesPath)
     chdir(notesPath)
 
@@ -28,6 +30,6 @@ def loadNotes():
 
 def saveNotes(notes):
     notesFile=openNotes('w')
-    notes.sort(key=lambda x:datetime.strptime(x['modDate'],'%Y-%m-%d %H:%M:%S'))
+    notes.sort(key=lambda x:datetime.strptime(x['modDate'],modDateFormat),reverse=True)
     notesFile.write(dumps(notes))
     notesFile.close()

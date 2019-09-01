@@ -12,7 +12,7 @@ def main():
     try:
         changeDir()
         if not getOption():
-            actions.Display([])
+            actions.Display([],True)
     except KeyboardInterrupt:
         print('\nAction cancelled')
 

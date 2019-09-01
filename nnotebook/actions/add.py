@@ -1,4 +1,4 @@
-from ._helpers import noteAction,NoteGetter
+from ._helpers import noteAction,NoteGetter,checkNotebook
 from .create import Create
 from ..files import loadNotes,saveNotes
 
@@ -6,7 +6,8 @@ from ..files import loadNotes,saveNotes
 class Add:
     def __init__(self,settings):
         self.notes,self.settings=loadNotes(),settings
-        self.note=NoteGetter(self.notes,self.settings).getNote()
+        nb=checkNotebook(settings)
+        self.note=NoteGetter(self.notes,self.settings,nb).getNote()
         self.checkAndChangeNote()
 
     def checkAndChangeNote(self):

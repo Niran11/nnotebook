@@ -1,11 +1,11 @@
-from ._helpers import noteAction,NoteGetter
+from ._helpers import noteAction,NoteGetter,checkNotebook
 from ..files import loadNotes,saveNotes
 
 @noteAction
 class Delete:
     def __init__(self,settings):
-        self.notes=loadNotes()
-        self.note=NoteGetter(self.notes,settings).getNote()
+        self.notes,notebook=loadNotes(),checkNotebook(settings)
+        self.note=NoteGetter(self.notes,settings,notebook).getNote()
         self.checkAndDeleteNote()
 
     def checkAndDeleteNote(self):

@@ -1,11 +1,13 @@
-from ._helpers import noteAction,NoteGetter
+from ._helpers import noteAction,NoteGetter,checkNotebook
 from ..files import loadNotes,saveNotes
 
 @noteAction
 class Display:
-    def __init__(self,settings):
-        self.notes=loadNotes()
-        self.note=NoteGetter(self.notes,settings).getNote()
+    def __init__(self,settings,noMatchesWarn=False):
+        self.notes,self.settings=loadNotes(),settings
+        self.notebook=checkNotebook(self.settings)
+        self.note=NoteGetter(self.notes,self.settings,
+                             self.notebook,noMatchesWarn).getNote()
         self.displayNoteOrNotes()
 
     def displayNoteOrNotes(self):
@@ -24,8 +26,12 @@ class Display:
         for note in self.notes:
             if 'end' not in note:
                 i+=1
-                self.trueNotes.append(note)
-                print('%s. %s'%(i,note['title']))
+                self.processNote(note,i)
+
+    def processNote(self,note,i):
+        self.trueNotes.append(note)
+        if not self.notebook or note['notebook']==self.notebook:
+            print('%s. %s/%s (%s)'%(i,note['notebook'],note['title'],note['modDate']))
 
     def displayNote(self):
         print('Note "%s":\n'%self.note['title'])
