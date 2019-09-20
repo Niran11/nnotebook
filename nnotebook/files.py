@@ -1,6 +1,5 @@
 from os import mkdir,mknod,chdir
 from os.path import expanduser,exists
-from datetime import datetime
 from json import loads,dumps
 from json.decoder import JSONDecodeError
 
@@ -30,6 +29,5 @@ def loadNotes():
 
 def saveNotes(notes):
     notesFile=openNotes('w')
-    notes.sort(key=lambda x:datetime.strptime(x['modDate'],modDateFormat),reverse=True)
     notesFile.write(dumps(notes))
     notesFile.close()

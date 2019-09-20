@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='nnotebook',
-      version='0.1',
+      version='0.2',
       description='Simple app for taking notes',
       url='https://github.com/Niran11/nnotebook',
       python_requires='>=3.7',

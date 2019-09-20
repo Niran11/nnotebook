@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from ._helpers import noteAction,NoteGetter,checkNotebook
-from ..files import loadNotes,saveNotes
+from ..files import loadNotes,saveNotes,modDateFormat
 
 @noteAction
 class Display:
@@ -18,6 +20,8 @@ class Display:
 
     def displayNotes(self):
         self.trueNotes=[]
+        self.notes.sort(key=lambda x:datetime.strptime(x['modDate'],modDateFormat),
+                        reverse=True)
         self.printNotes()
         saveNotes(self.trueNotes)
 
@@ -31,8 +35,11 @@ class Display:
     def processNote(self,note,i):
         self.trueNotes.append(note)
         if not self.notebook or note['notebook']==self.notebook:
-            print('%s. %s/%s (%s)'%(i,note['notebook'],note['title'],note['modDate']))
+            print('%s. %s/%s (%s)'%(i,note['notebook'],
+                                    note['title'],note['modDate']))
 
     def displayNote(self):
-        print('Note "%s":\n'%self.note['title'])
+        print('Note %s/%s (mod. date: %s):\n'%(self.note['notebook'],
+                                               self.note['title'],
+                                               self.note['modDate']))
         print(self.note['content'])

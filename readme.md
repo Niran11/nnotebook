@@ -15,7 +15,9 @@ if `--user is used` then add `~/.local/bin/` to your $PATH variable:
 
 `note delete id/title` - removes note
 
-`note display` or `note` - displays all notesin format `id. notebook/title (modification date)`
+`note display` or `note` - displays all notes in format `id. notebook/title (modification date)`
+
+`note id/title` - displays note with given id/title
 
 `note display id/title` - display note with given id/title
 
